@@ -11,7 +11,7 @@ env:
   
 
 jobs:
-  test:
+  test-image:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
       run: docker build . --file Dockerfile --tag xcbeyond/test
 
     - name: Login dockerhub registry
-      run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u xcbeyond --password-stdin
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u xcbeyond --password-stdin
         
     - name: Push image
       run: |
