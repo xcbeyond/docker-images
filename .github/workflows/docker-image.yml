@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  XCBEYOND: xcbeyond
+  
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build test image
+      run: docker build . --file Dockerfile --tag xcbeyond/test
+
+    - name: Login dockerhub registry
+      run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u xcbeyond --password-stdin
+        
+    - name: Push image
+      run: |
+        docker image tag xcbeyond/test xcbeyond/test
+        docker push xcbeyond/test
