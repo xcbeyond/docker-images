@@ -16,7 +16,7 @@ jobs:
 
     - name: Build image
       run: |
-        if ['latest' == $IMAGE_VERSION]; then
+        if [ "latest" = $IMAGE_VERSION ]; then
           docker build . --file ./$IMAGE_NAME/Dockerfile --tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
         else
           docker build . --file ./$IMAGE_NAME/$IMAGE_VERSION/Dockerfile --tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
