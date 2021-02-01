@@ -9,3 +9,6 @@ Docker镜像库
 
 ## prometheus-operator
 基于`quay.io/coreos/prometheus-operator`镜像构建。
+
+## kube-apiserver
+基于`k8s.gcr.io/kube-apiserver`镜像构建。
