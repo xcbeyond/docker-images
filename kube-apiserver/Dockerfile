@@ -1,2 +1,2 @@
-FROM k8s.gcr.io/kube-apiserver:latest
+FROM k8s.gcr.io/google_containers/kube-apiserver:latest
 MAINTAINER xcbeyond
