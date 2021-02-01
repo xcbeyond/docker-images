@@ -5,7 +5,7 @@ on: workflow_dispatch
 env:
   IMAGE_PREFIX: xcbeyond
   IMAGE_NAME: kube-apiserver
-  IMAGE_VERSION: latest
+  IMAGE_VERSION: v1.20.0
   
 
 jobs:
