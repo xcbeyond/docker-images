@@ -7,8 +7,4 @@ RUN set -ex ; \
   curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl; \
   chmod +x /usr/local/bin/kubectl; 
 
-RUN adduser -D -h /home/term -s /bin/bash term; \
-  mkdir /home/term/.kube;
-
-#ENTRYPOINT ["/bin/sh"]
 CMD ["sh","-c","tail -f /dev/null"]
