@@ -1,10 +1,10 @@
-name: gobuilder Image CI
+name: go-builder Image CI
 
 on: workflow_dispatch
 
 env:
   IMAGE_PREFIX: xcbeyond
-  IMAGE_NAME: gobuilder
+  IMAGE_NAME: go-builder
   IMAGE_VERSION: 1.16
   
 
