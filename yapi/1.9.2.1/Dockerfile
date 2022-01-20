@@ -10,7 +10,7 @@ RUN mkdir /yapi && \
 RUN cd /yapi/vendors && \
     npm install --production --registry https://registry.npm.taobao.org && \
     wget -P /yapi https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/config.json && \
-    wget -P /yapi/vendors/server/utils https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/ommons.js && \
+    wget -P /yapi/vendors/server/utils https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/commons.js && \
     wget -P /yapi/vendors/server https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/install.js && \
     wget -P /yapi https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/run.sh
 
