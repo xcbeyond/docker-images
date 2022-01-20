@@ -8,13 +8,17 @@ RUN mkdir /yapi && \
     wget -O /yapi/yapi.tgz http://registry.npm.taobao.org/yapi-vendor/download/yapi-vendor-$VERSION.tgz && \
     tar zxvf /yapi/yapi.tgz -C /yapi  && mv /yapi/package /yapi/vendors
 RUN cd /yapi/vendors && \
-    npm install --production --registry https://registry.npm.taobao.org
+    npm install --production --registry https://registry.npm.taobao.org && \
+    wget -P /yapi https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/config.json && \
+    wget -P /yapi/vendors/server/utils https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/ommons.js && \
+    wget -P /yapi/vendors/server https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/install.js && \
+    wget -P /yapi https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/run.sh
 
-COPY config.json /yapi
-# https://github.com/YMFE/yapi/issues/2231
-COPY commons.js /yapi/vendors/server/utils
-COPY install.js /yapi/vendors/server
-COPY run.sh /yapi
+# COPY config.json /yapi
+# # https://github.com/YMFE/yapi/issues/2231
+# COPY commons.js /yapi/vendors/server/utils
+# COPY install.js /yapi/vendors/server
+# COPY run.sh /yapi
 RUN chmod 777 /yapi/run.sh
 
 EXPOSE 3000
