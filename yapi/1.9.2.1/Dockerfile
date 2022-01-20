@@ -10,16 +10,16 @@ RUN mkdir /yapi && \
 RUN cd /yapi/vendors && \
     npm install --production --registry https://registry.npm.taobao.org && \
     wget -O /yapi/config.json https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/config.json && \
-    wget -O /yapi/vendors/server/utils/commons.js https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/commons.js && \
-    wget -O /yapi/vendors/server/install.js https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/install.js && \
-    wget -O /yapi/run.sh https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/run.sh
+    wget -O /yapi/vendors/server/utils/commons.js https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/commons.js
+    # wget -O /yapi/vendors/server/install.js https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/install.js && \
+    # wget -O /yapi/run.sh https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/run.sh
 
 # COPY config.json /yapi
 # # https://github.com/YMFE/yapi/issues/2231
 # COPY commons.js /yapi/vendors/server/utils
 # COPY install.js /yapi/vendors/server
 # COPY run.sh /yapi
-RUN chmod 777 /yapi/run.sh
+# RUN chmod 777 /yapi/run.sh
 
 EXPOSE 3000
-ENTRYPOINT ["/yapi/run.sh"]
+# ENTRYPOINT ["/yapi/run.sh"]
