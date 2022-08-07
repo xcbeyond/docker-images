@@ -9,9 +9,9 @@ RUN mkdir /yapi && \
     tar zxvf /yapi/yapi.tgz -C /yapi  && mv /yapi/package /yapi/vendors
 RUN cd /yapi/vendors && \
     npm install --production --registry https://registry.npm.taobao.org && \
-    wget -O /yapi/config.json https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/config.json && \
-    wget -O /yapi/vendors/server/utils/commons.js https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/commons.js && \
-    wget -O /yapi/run.sh https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2.1/run.sh && chmod 777 /yapi/run.sh
+    wget -O /yapi/config.json https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2/config.json && \
+    wget -O /yapi/vendors/server/utils/commons.js https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2/commons.js && \
+    wget -O /yapi/run.sh https://github.com/xcbeyond/docker-images/blob/master/yapi/1.9.2/run.sh && chmod 777 /yapi/run.sh
 
 # COPY config.json /yapi
 # https://github.com/YMFE/yapi/issues/2231
