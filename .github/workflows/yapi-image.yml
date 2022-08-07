@@ -5,7 +5,7 @@ on: workflow_dispatch
 env:
   IMAGE_PREFIX: xcbeyond
   IMAGE_NAME: yapi
-  IMAGE_VERSION: 1.9.2
+  IMAGE_VERSION: 1.10.2
 
 jobs:
   build-image:
