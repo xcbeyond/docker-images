@@ -12,7 +12,7 @@ RUN curl -L https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 
 # istioctl, refer to https://istio.io/latest/docs/ops/diagnostic-tools/istioctl/
 RUN curl -L https://istio.io/downloadIstioctl | ISTIO_VERSION=${ISTIOCTL_VERSION} sh -; \
-  cp .istioctl/bin/istioctl /usr/local/bin/istioctl; \
-  rm -rf .istioctl/;
+  cp ~/.istioctl/bin/istioctl /usr/local/bin/istioctl; \
+  rm -rf ~/.istioctl/;
 
 CMD ["sh","-c","tail -f /dev/null"]
