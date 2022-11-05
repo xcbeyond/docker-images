@@ -47,3 +47,7 @@ GitBook version: 3.2.3
 ## kube-apiserver
 
 基于 `k8s.gcr.io/kube-apiserver` 镜像构建。
+
+## cloudnative-terminal
+
+云原生 terminal 容器，包含常用命令工具：kubectl、istioctl、helm 等。
