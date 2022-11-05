@@ -1,5 +1,5 @@
 
-name: cnctl Image CI
+name: cloudnative-terminal Image CI
 
 on: workflow_dispatch
 
