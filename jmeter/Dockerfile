@@ -1,4 +1,4 @@
-FROM bash:4
+FROM openjdk:8u121
 LABEL MAINTAINER xcbeyond
 
 RUN set -ex ; \
