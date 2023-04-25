@@ -1,0 +1,25 @@
+
+name: jmeter Image CI
+
+on: workflow_dispatch
+
+env:
+  IMAGE_PREFIX: xcbeyond
+  IMAGE_NAME: jmeter
+  IMAGE_VERSION: 5.5
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build image
+      run: docker build . --file ./$IMAGE_NAME/Dockerfile --tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
+
+    - name: Login dockerhub registry
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u xcbeyond --password-stdin
+        
+    - name: Push image
+      run: |
+        docker push $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
