@@ -7,6 +7,6 @@ RUN curl -L -k https://dlcdn.apache.org/jmeter/binaries/apache-jmeter-5.5.tgz -o
   curl -L https://raw.githubusercontent.com/xcbeyond/docker-images/master/jmeter/jmeter-plugins.zip -o jmeter-plugins.zip; \
   unzip jmeter-plugins.zip -d ./apache-jmeter-5.5/lib/ext/;
 
-EXPOSE 1099
+EXPOSE 30199
 
 CMD ["/bin/bash","-c","./apache-jmeter-5.5/bin/jmeter-server"]
