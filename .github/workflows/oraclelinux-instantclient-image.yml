@@ -1,0 +1,26 @@
+name: oraclelinux-instantclient Image CI
+
+on: workflow_dispatch
+
+env:
+  IMAGE_PREFIX: xcbeyond
+  IMAGE_NAME: oraclelinux-instantclient
+  IMAGE_VERSION: 21
+  
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build image
+      run: docker build . --file ./$IMAGE_NAME/Dockerfile --tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION 
+
+    - name: Login dockerhub registry
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u xcbeyond --password-stdin
+        
+    - name: Push image
+      run: |
+        docker image tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
+        docker push $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
