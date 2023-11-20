@@ -19,5 +19,6 @@ RUN apt-get update -q \
        jmespath==1.0.1 \
        MarkupSafe==2.1.3 \
        ruamel.yaml==0.17.21 \
-       passlib==1.7.4 \
-   && apt-get install mysql-client
+       passlib==1.7.4
+
+RUN apt-get install mysql-client
