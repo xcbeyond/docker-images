@@ -5,20 +5,13 @@ on: workflow_dispatch
 env:
   IMAGE_PREFIX: xcbeyond
   IMAGE_NAME: ansible-base
-  IMAGE_VERSION: latest
+  IMAGE_VERSION: v2.14.6
   
 
 jobs:
   build-image:
     runs-on: ubuntu-latest
     steps:
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 5120
-        swap-size-mb: 1024
-        remove-dotnet: 'true'
-
     - uses: actions/checkout@v2
 
     - name: Build image
