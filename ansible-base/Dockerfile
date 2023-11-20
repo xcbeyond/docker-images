@@ -21,4 +21,5 @@ RUN apt-get update -q \
        ruamel.yaml==0.17.21 \
        passlib==1.7.4
 
-RUN apt-get install -y mysql-client
+RUN apt-get install -y mysql-client \
+    && apt-get install -y unzip
