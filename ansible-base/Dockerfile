@@ -36,7 +36,7 @@ RUN apt-get update && \
     curl -L https://download.oracle.com/otn_software/linux/instantclient/213000/instantclient-sqlplus-linux-21.3.0.0.0.zip -o /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip && \
     unzip /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip -d /opt/oracle && \
     unzip /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip -d /opt/oracle && \
-    rm /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip && \
+    rm /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip
 
 # Set environment variables for Oracle Instant Client
 ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_21_3:${LD_LIBRARY_PATH}"
