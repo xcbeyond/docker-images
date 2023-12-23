@@ -32,15 +32,20 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /opt/oracle && \
-    curl -L https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basiclite-linux.x64-21.1.0.0.0.zip -o /opt/oracle/instantclient-basiclite-linux.x64.zip && \
-    unzip /opt/oracle/instantclient-basiclite-linux.x64.zip -d /opt/oracle && \
-    rm /opt/oracle/instantclient-basiclite-linux.x64.zip && \
-    ln -s /opt/oracle/instantclient* /usr/lib && \
-    echo "/opt/oracle/instantclient_21_1" > /etc/ld.so.conf.d/oracle-instantclient.conf && \
-    ldconfig
+    curl -L https://download.oracle.com/otn_software/linux/instantclient/213000/instantclient-basic-linux-21.3.0.0.0.zip -o /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip && \
+    curl -L https://download.oracle.com/otn_software/linux/instantclient/213000/instantclient-sqlplus-linux-21.3.0.0.0.zip -o /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip && \
+    unzip /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip -d /opt/oracle && \
+    unzip /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip -d /opt/oracle && \
+    rm /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip && \
 
 # Set environment variables for Oracle Instant Client
-ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_21_1:${LD_LIBRARY_PATH}"
+ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_21_3:${LD_LIBRARY_PATH}"
+ENV ORACLE_HOME=/opt/oracle/instantclient_21_3
+ENV PATH=$PATH:$ORACLE_HOME
+# 允许非交互式使用 SQL*Plus
+ENV TWO_TASK=
+# 指定 SQL*Plus 的字符集
+ENV NLS_LANG=AMERICAN_AMERICA.UTF8
 
 # Cleanup
 RUN apt-get autoremove -y && \
