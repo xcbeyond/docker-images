@@ -3,8 +3,8 @@ FROM oraclelinux:8
 
 RUN  dnf -y install oracle-instantclient-release-el8 && \
      dnf -y install oracle-instantclient-basic oracle-instantclient-devel oracle-instantclient-sqlplus && \
-     dnf -y install ansible-7.6.0 && \
-     dnf -y install ansible-core-2.14.6 && \
+     dnf -y install ansible && \
+     dnf -y install ansible-core && \
      rm -rf /var/cache/dnf
 
 # Uncomment if the tools package is added
