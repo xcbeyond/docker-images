@@ -39,7 +39,7 @@ RUN apt-get update && \
     rm /opt/oracle/instantclient-basic-linux-21.3.0.0.0.zip /opt/oracle/instantclient-sqlplus-linux-21.3.0.0.0.zip
 
 # Set environment variables for Oracle Instant Client
-ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_21_3:${LD_LIBRARY_PATH}"
+ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_21_3"
 ENV ORACLE_HOME=/opt/oracle/instantclient_21_3
 ENV PATH=$PATH:$ORACLE_HOME
 # 允许非交互式使用 SQL*Plus
