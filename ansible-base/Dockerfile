@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM --platform=$PLATFORM ubuntu:22.04
 LABEL MAINTAINER xcbeyond
 
 # install ansible
