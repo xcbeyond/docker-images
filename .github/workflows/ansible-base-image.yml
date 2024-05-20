@@ -25,5 +25,8 @@ jobs:
     #     docker image tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
     #     docker push $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
 
+    - name: Enable docker buildkit
+      run: export DOCKER_BUILDKIT=1
+
     - name: Build & push image
       run: docker buildx build --push --platform linux/amd64,linux/arm64 . --file ./$IMAGE_NAME/Dockerfile --tag $IMAGE_PREFIX/$IMAGE_NAME:$IMAGE_VERSION
