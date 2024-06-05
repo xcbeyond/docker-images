@@ -20,12 +20,9 @@ RUN apt-get update -q \
        jmespath==1.0.1 \
        MarkupSafe==2.1.3 \
        ruamel.yaml==0.17.21 \
-       passlib==1.7.4
-
-# install mikefarah/yq
-RUN ARCH=$(uname -m) \
-    && YQ_VERSION=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep -Po '"tag_name": "\K.*?(?=")') \
-    && curl -L https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${ARCH}.tar.gz -O - | tar xz && sudo mv yq_linux_${ARCH} /usr/local/bin/yq
+       passlib==1.7.4   \
+       yq \
+       jq
 
 # install mysql command
 RUN apt-get install -y mysql-client \
