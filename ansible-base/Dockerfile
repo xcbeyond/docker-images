@@ -20,8 +20,11 @@ RUN apt-get update -q \
        jmespath==1.0.1 \
        MarkupSafe==2.1.3 \
        ruamel.yaml==0.17.21 \
-       passlib==1.7.4 \
-       yq
+       passlib==1.7.4
+
+# install mikefarah/yq
+RUN apt-get install snapd \
+    && snap install yq
 
 # install mysql command
 RUN apt-get install -y mysql-client \
