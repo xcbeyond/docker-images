@@ -23,8 +23,8 @@ RUN apt-get update -q \
        passlib==1.7.4
 
 # install mikefarah/yq
-RUN apt-get install snapd \
-    && snap install yq
+RUN apt-get install -yq snapd \
+    && snap install -y yq
 
 # install mysql command
 RUN apt-get install -y mysql-client \
