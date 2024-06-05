@@ -11,6 +11,7 @@ RUN apt-get update -q \
        vim \
        rsync \
        openssh-client \
+       yq \
     && pip install --no-compile --no-cache-dir \
        ansible==7.6.0 \
        ansible-core==2.14.6 \
