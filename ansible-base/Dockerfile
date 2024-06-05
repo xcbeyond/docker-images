@@ -11,7 +11,6 @@ RUN apt-get update -q \
        vim \
        rsync \
        openssh-client \
-       yq \
     && pip install --no-compile --no-cache-dir \
        ansible==7.6.0 \
        ansible-core==2.14.6 \
@@ -21,7 +20,8 @@ RUN apt-get update -q \
        jmespath==1.0.1 \
        MarkupSafe==2.1.3 \
        ruamel.yaml==0.17.21 \
-       passlib==1.7.4
+       passlib==1.7.4 \
+       yq
 
 # install mysql command
 RUN apt-get install -y mysql-client \
