@@ -23,9 +23,9 @@ RUN apt-get update -q \
        passlib==1.7.4
 
 # install mikefarah/yq
-RUN add-apt-repository ppa:rmescandon/yq \
-    && apt-get update \
-    && apt-get install -y yq
+RUN ARCH=$(uname -m) \
+    && YQ_VERSION=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep -Po '"tag_name": "\K.*?(?=")') \
+    && wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${ARCH}.tar.gz -O - | tar xz && sudo mv yq_linux_${ARCH} /usr/local/bin/yq
 
 # install mysql command
 RUN apt-get install -y mysql-client \
