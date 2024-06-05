@@ -24,7 +24,7 @@ RUN apt-get update -q \
 
 # install mikefarah/yq
 RUN apt-get install -y snapd \
-    && snap install yq
+    && snap install yq --classic --yes
 
 # install mysql command
 RUN apt-get install -y mysql-client \
