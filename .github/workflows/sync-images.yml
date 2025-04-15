@@ -13,6 +13,8 @@ on:
 jobs:
   sync-multi-arch:
     runs-on: ubuntu-latest
+    env:
+      NERDCTL_NO_TTY: 1  # 全局禁用 TTY
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -35,7 +37,7 @@ jobs:
       run: |
         echo ${{ secrets.PERSONAL_TOKEN }} | nerdctl login ghcr.io \
           -u ${{ github.repository_owner }} \
-          --password-stdin --debug=false
+          --password-stdin
 
     - name: Sync Multi-Arch Image
       run: |
