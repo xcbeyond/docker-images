@@ -35,7 +35,7 @@ jobs:
       run: |
         echo ${{ secrets.PERSONAL_TOKEN }} | nerdctl login ghcr.io \
           -u ${{ github.repository_owner }} \
-          --password-stdin
+          --password-stdin --debug=false
 
     - name: Sync Multi-Arch Image
       run: |
