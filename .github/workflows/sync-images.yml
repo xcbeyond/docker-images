@@ -35,9 +35,7 @@ jobs:
 
     - name: Login to GitHub Packages
       run: |
-        echo ${{ secrets.PERSONAL_TOKEN }} | nerdctl login ghcr.io \
-          -u ${{ github.repository_owner }} \
-          --password-stdin
+        nerdctl login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.PERSONAL_TOKEN }}
 
     - name: Sync Multi-Arch Image
       run: |
