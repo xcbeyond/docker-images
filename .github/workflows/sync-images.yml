@@ -50,19 +50,17 @@ jobs:
         TARGET_IMAGE="ghcr.io/${{ github.repository_owner }}/$(echo ${{ inputs.image }} | tr '/' '-')"
         TAG="${{ inputs.tag }}"
 
-        # 拉取所有架构镜像(显式指定 containerd socket)
-        sudo nerdctl --address /run/containerd/containerd.sock pull --all-platforms --unpack=true $SOURCE_IMAGE:$TAG
-
         # 获取支持的架构列表
-        ARCH_LIST=$(sudo nerdctl --address /run/containerd/containerd.sock image inspect $SOURCE_IMAGE:$TAG | \
-          jq -r '.[].Architectures | join(",")')
+        # ARCH_LIST=$(sudo nerdctl --address /run/containerd/containerd.sock image inspect $SOURCE_IMAGE:$TAG | jq -r '.[].Architectures | join(",")')
+        ARCH_LIST=("linux/amd64" "linux/arm64")
 
         # 推送各架构镜像
-        for arch in $(echo $ARCH_LIST | tr "," "\n"); do
-          sudo nerdctl --address /run/containerd/containerd.sock push \
-            --platform $arch \
-            $SOURCE_IMAGE:$TAG \
-            $TARGET_IMAGE:$TAG
+        for arch in "${ARCH_LIST[@]}"; do
+          # 拉取指定架构镜像
+          sudo nerdctl --address /run/containerd/containerd.sock pull --platform $arch $SOURCE_IMAGE:$TAG
+
+          # 推送指定架构镜像
+          sudo nerdctl --address /run/containerd/containerd.sock push --platform $arch $SOURCE_IMAGE:$TAG $TARGET_IMAGE:$TAG
         done
 
         # 创建并推送 Manifest List
