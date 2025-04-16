@@ -16,30 +16,37 @@ jobs:
     steps:
     - name: Setup nerdctl
       run: |
-        # 安装 rootless 依赖
+        # 安装系统依赖
         sudo apt-get update
-        sudo apt-get install -y uidmap dbus-user-session fuse-overlayfs
+        sudo apt-get install -y \
+          uidmap \
+          dbus-user-session \
+          fuse-overlayfs \
+          slirp4netns \
+          iptables \
+          jq
 
-        # 配置用户子进程 ID 映射
+        # 配置用户命名空间
         echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.conf
         sudo sysctl -p
 
-        # 创建用户命名空间
-        mkdir -p ~/.config/systemd/user
-        systemctl --user daemon-reload
+        # 安装 rootlesskit
+        ROOTLESSKIT_VERSION=1.1.1
+        wget https://github.com/rootless-containers/rootlesskit/releases/download/v${ROOTLESSKIT_VERSION}/rootlesskit-$(uname -m).tar.gz
+        sudo tar Cxzvf /usr/local/bin rootlesskit-$(uname -m).tar.gz
 
-        # 安装 containerd
-        sudo apt-get install -y containerd
+        # 安装 containerd + nerdctl
+        CONTAINERD_VERSION=1.6.8
+        wget https://github.com/containerd/containerd/releases/download/v${CONTAINERD_VERSION}/containerd-${CONTAINERD_VERSION}-linux-$(uname -m).tar.gz
+        sudo tar Cxzvf /usr/local/bin containerd-${CONTAINERD_VERSION}-linux-$(uname -m).tar.gz
 
-        # 安装 nerdctl (rootless 模式)
         NERDCTL_VERSION=1.5.0
-        wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
-        tar Cxzvvf /usr/local/bin nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
-        sudo chmod +x /usr/local/bin/nerdctl
+        wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-$(uname -m).tar.gz
+        sudo tar Cxzvf /usr/local/bin nerdctl-${NERDCTL_VERSION}-linux-$(uname -m).tar.gz
 
-        # 初始化 rootless containerd
-        containerd-rootless-setuptool.sh install
-        containerd-rootless-setuptool.sh start
+        # 初始化 rootless 环境
+        /usr/local/bin/containerd-rootless-setuptool.sh install
+        /usr/local/bin/containerd-rootless-setuptool.sh start
 
         # 设置 rootless 环境变量
         echo "CONTAINERD_ADDRESS=/run/containerd/containerd.sock" >> $GITHUB_ENV
