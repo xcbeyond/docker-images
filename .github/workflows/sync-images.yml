@@ -51,7 +51,7 @@ jobs:
         TAG="${{ inputs.tag }}"
 
         # 拉取所有架构镜像(显式指定 containerd socket)
-        sudo nerdctl --address /run/containerd/containerd.sock pull --all-platforms $SOURCE_IMAGE:$TAG
+        sudo nerdctl --address /run/containerd/containerd.sock pull --all-platforms --unpack=true $SOURCE_IMAGE:$TAG
 
         # 获取支持的架构列表
         ARCH_LIST=$(sudo nerdctl --address /run/containerd/containerd.sock image inspect $SOURCE_IMAGE:$TAG | \
