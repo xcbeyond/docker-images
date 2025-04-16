@@ -59,8 +59,11 @@ jobs:
           # 拉取指定架构镜像
           sudo nerdctl --address /run/containerd/containerd.sock pull --platform $arch $SOURCE_IMAGE:$TAG
 
+          # 镜像重命名
+          sudo nerdctl --address /run/containerd/containerd.sock tag $SOURCE_IMAGE:$TAG $TARGET_IMAGE:$TAG
+
           # 推送指定架构镜像
-          sudo nerdctl --address /run/containerd/containerd.sock push --platform $arch $SOURCE_IMAGE:$TAG $TARGET_IMAGE:$TAG
+          sudo nerdctl --address /run/containerd/containerd.sock push --platform $arch $TARGET_IMAGE:$TAG
         done
 
         # 创建并推送 Manifest List
