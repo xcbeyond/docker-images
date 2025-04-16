@@ -37,12 +37,12 @@ jobs:
 
         # 安装 containerd + nerdctl
         CONTAINERD_VERSION=1.6.8
-        wget https://github.com/containerd/containerd/releases/download/v${CONTAINERD_VERSION}/containerd-${CONTAINERD_VERSION}-linux-$(uname -m).tar.gz
-        sudo tar Cxzvf /usr/local/bin containerd-${CONTAINERD_VERSION}-linux-$(uname -m).tar.gz
+        wget https://github.com/containerd/containerd/releases/download/v${CONTAINERD_VERSION}/containerd-${CONTAINERD_VERSION}-linux-amd64.tar.gz
+        sudo tar Cxzvf /usr/local/bin containerd-${CONTAINERD_VERSION}-linux-amd64.tar.gz
 
         NERDCTL_VERSION=1.5.0
-        wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-$(uname -m).tar.gz
-        sudo tar Cxzvf /usr/local/bin nerdctl-${NERDCTL_VERSION}-linux-$(uname -m).tar.gz
+        wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
+        sudo tar Cxzvf /usr/local/bin nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
 
         # 初始化 rootless 环境
         /usr/local/bin/containerd-rootless-setuptool.sh install
