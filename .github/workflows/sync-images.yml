@@ -34,15 +34,15 @@ jobs:
         # 安装 nerdctl (rootless 模式)
         NERDCTL_VERSION=1.5.0
         wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
-        tar Cxzvvf ~/.local/bin nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        tar Cxzvvf /usr/local/bin nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
+        sudo chmod +x /usr/local/bin/nerdctl
 
         # 初始化 rootless containerd
         containerd-rootless-setuptool.sh install --force
         containerd-rootless-setuptool.sh start
 
         # 设置 rootless 环境变量
-        echo "CONTAINERD_ADDRESS=$HOME/.local/share/containerd/containerd.sock" >> $GITHUB_ENV
+        echo "CONTAINERD_ADDRESS=/run/containerd/containerd.sock" >> $GITHUB_ENV
         echo "CONTAINERD_NAMESPACE=default" >> $GITHUB_ENV
 
         # 验证 containerd 状态
