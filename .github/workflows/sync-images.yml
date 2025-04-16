@@ -13,33 +13,40 @@ on:
 jobs:
   sync-multi-arch:
     runs-on: ubuntu-latest
-    env:
-      NERDCTL_NO_TTY: 1  # 全局禁用 TTY
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
     - name: Setup nerdctl
       run: |
-        # 禁用 Docker 安装（如果之前有）
-        sudo systemctl stop docker || true
-        sudo apt-get remove -y docker docker-engine docker.io containerd runc
-
-        # 安装 containerd 和 nerdctl
+        # 安装 rootless 依赖
         sudo apt-get update
-        sudo apt-get install -y containerd
-        sudo mkdir -p /etc/containerd
-        sudo containerd config default | sudo tee /etc/containerd/config.toml
-        sudo systemctl restart containerd
+        sudo apt-get install -y uidmap dbus-user-session fuse-overlayfs
 
-        # 安装 nerdctl
+        # 配置用户子进程 ID 映射
+        echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.conf
+        sudo sysctl -p
+
+        # 创建用户命名空间
+        mkdir -p ~/.config/systemd/user
+        systemctl --user daemon-reload
+
+        # 安装 containerd
+        sudo apt-get install -y containerd
+
+        # 安装 nerdctl (rootless 模式)
         NERDCTL_VERSION=1.5.0
         wget https://github.com/containerd/nerdctl/releases/download/v${NERDCTL_VERSION}/nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
-        sudo tar Cxzvvf /usr/local/bin nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
-        sudo chmod +x /usr/local/bin/nerdctl
+        tar Cxzvvf ~/.local/bin nerdctl-${NERDCTL_VERSION}-linux-amd64.tar.gz
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-        # 配置 QEMU 模拟器
-        # sudo docker run --privileged --rm tonistiigi/binfmt --install all
+        # 初始化 rootless containerd
+        containerd-rootless-setuptool.sh install --force
+        containerd-rootless-setuptool.sh start
+
+        # 设置 rootless 环境变量
+        echo "CONTAINERD_ADDRESS=$HOME/.local/share/containerd/containerd.sock" >> $GITHUB_ENV
+        echo "CONTAINERD_NAMESPACE=default" >> $GITHUB_ENV
+
+        # 验证 containerd 状态
+        nerdctl --address $CONTAINERD_ADDRESS info
 
     - name: Login to GitHub Packages
       run: |
@@ -52,24 +59,24 @@ jobs:
         TAG="${{ inputs.tag }}"
 
         # 拉取所有架构镜像(显式指定 containerd socket)
-        nerdctl --address /run/containerd/containerd.sock pull --all-platforms $SOURCE_IMAGE:$TAG
+        nerdctl --address $CONTAINERD_ADDRESS pull --all-platforms $SOURCE_IMAGE:$TAG
 
         # 获取支持的架构列表
-        ARCH_LIST=$(nerdctl --address /run/containerd/containerd.sock image inspect $SOURCE_IMAGE:$TAG | \
+        ARCH_LIST=$(nerdctl --address $CONTAINERD_ADDRESS image inspect $SOURCE_IMAGE:$TAG | \
           jq -r '.[].Architectures | join(",")')
 
         # 推送各架构镜像
         for arch in $(echo $ARCH_LIST | tr "," "\n"); do
-          nerdctl --address /run/containerd/containerd.sock push \
+          nerdctl --address $CONTAINERD_ADDRESS push \
             --platform $arch \
             $SOURCE_IMAGE:$TAG \
             $TARGET_IMAGE:$TAG
         done
 
         # 创建并推送 Manifest List
-        nerdctl --address /run/containerd/containerd.sock manifest create $TARGET_IMAGE:$TAG $(echo $ARCH_LIST | sed 's/,/ /g')
-        nerdctl --address /run/containerd/containerd.sock manifest push $TARGET_IMAGE:$TAG
+        nerdctl --address $CONTAINERD_ADDRESS manifest create $TARGET_IMAGE:$TAG $(echo $ARCH_LIST | sed 's/,/ /g')
+        nerdctl --address $CONTAINERD_ADDRESS manifest push $TARGET_IMAGE:$TAG
 
     - name: Verify Result
       run: |
-        nerdctl --address /run/containerd/containerd.sock manifest inspect $TARGET_IMAGE:$TAG
+        nerdctl --address $CONTAINERD_ADDRESS manifest inspect $TARGET_IMAGE:$TAG
