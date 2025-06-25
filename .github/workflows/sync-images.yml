@@ -14,6 +14,7 @@ jobs:
   sync-multi-arch:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       packages: write
 
     steps:
@@ -43,14 +44,14 @@ jobs:
         # 配置 QEMU 模拟器
         # sudo docker run --privileged --rm tonistiigi/binfmt --install all
 
-    # - name: Login to GitHub Packages
-    #   run: |
-    #     nerdctl --address /run/containerd/containerd.sock login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Sync Multi-Arch Image
+    - name: Login to GitHub Packages
       run: |
         nerdctl --address /run/containerd/containerd.sock login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Sync Multi-Arch Image
+      run: |
+        nerdctl --address /run/containerd/containerd.sock info | grep Username
+        
         SOURCE_IMAGE="docker.io/${{ inputs.image }}"
         TARGET_IMAGE="ghcr.io/${{ github.repository_owner }}/$(echo ${{ inputs.image }} | tr '/' '-')"
         TAG="${{ inputs.tag }}"
