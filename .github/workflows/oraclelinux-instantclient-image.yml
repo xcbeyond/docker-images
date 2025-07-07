@@ -2,12 +2,6 @@ name: oraclelinux-instantclient Image CI
 
 on: workflow_dispatch
 
-env:
-  IMAGE_PREFIX: xcbeyond
-  IMAGE_NAME: oraclelinux-instantclient
-  IMAGE_VERSION: 21
-
-
 jobs:
   build-image:
     runs-on: ubuntu-latest
@@ -22,11 +16,12 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: ${IMAGE_NAME}:${IMAGE_VERSION}
+        image: oraclelinux-instantclient
+        tag: 21
         registry: ghcr.io
         multiPlatform: true
         platform: linux/amd64,linux/arm64
         overrideDriver: true
-        dockerfile: ./$IMAGE_NAME/Dockerfile
+        dockerfile: ./oraclelinux-instantclient/Dockerfile
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
