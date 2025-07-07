@@ -1,7 +1,7 @@
 # https://github.com/oracle/docker-images/blob/main/OracleInstantClient/oraclelinux8/21/Dockerfile
 FROM oraclelinux:8
 
-RUN  dnf -y install oracle-instantclient-release-el8 && \
+RUN  dnf -y install oracle-release-el8 && \
      dnf -y install oracle-instantclient-basic oracle-instantclient-devel oracle-instantclient-sqlplus && \
      dnf -y install python27 && \
      rm -rf /var/cache/dnf
