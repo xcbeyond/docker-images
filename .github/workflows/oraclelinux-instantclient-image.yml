@@ -31,5 +31,5 @@ jobs:
         platform: linux/amd64,linux/arm64
         overrideDriver: true
         dockerfile: ./$IMAGE_NAME/Dockerfile
-        username: xcbeyond
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        # username: xcbeyond
+        # password: ${{ secrets.DOCKER_HUB_PASSWORD }}
